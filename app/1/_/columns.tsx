@@ -98,6 +98,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for status')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Status
       </ColumnHeaderPopover>
@@ -127,6 +128,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for title')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Title
       </ColumnHeaderPopover>
@@ -146,6 +148,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for assignee')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Assignee
       </ColumnHeaderPopover>
@@ -184,6 +187,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for estimatedHours')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Estimated Hours
       </ColumnHeaderPopover>
@@ -218,6 +222,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for startDate')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Start Date
       </ColumnHeaderPopover>
@@ -247,6 +252,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for endDate')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         End Date
       </ColumnHeaderPopover>
@@ -275,6 +281,7 @@ export const tstColumnDefs = [
           // TODO: Implement filter opening logic
           console.log('Open filter for labels')
         }}
+        onHide={() => column.toggleVisibility(false)}
       >
         Labels
       </ColumnHeaderPopover>

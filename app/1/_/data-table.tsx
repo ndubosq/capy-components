@@ -96,7 +96,7 @@ export function DataTable({
             Total row count: {table.getCoreRowModel().rows.length}
           </span>
         </div>
-        <div className="space-x-2">
+        <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"

@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { ArrowDownIcon, ArrowUpIcon, FilterIcon } from "lucide-react"
+import { ArrowDownIcon, ArrowUpIcon, FilterIcon, EyeOffIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface ColumnHeaderPopoverProps {
@@ -15,8 +15,10 @@ interface ColumnHeaderPopoverProps {
   columnId: string
   enableSorting?: boolean
   enableFiltering?: boolean
-  onSort?: (direction: 'asc' | 'desc') => void
+  enableHiding?: boolean
+  onSort?: (direction: 'asc' | 'desc' | null) => void
   onFilter?: () => void
+  onHide?: () => void
   currentSort?: 'asc' | 'desc' | null
 }
 
@@ -25,14 +27,18 @@ export function ColumnHeaderPopover({
   columnId,
   enableSorting = true,
   enableFiltering = true,
+  enableHiding = true,
   onSort,
   onFilter,
+  onHide,
   currentSort,
 }: ColumnHeaderPopoverProps) {
   const [open, setOpen] = React.useState(false)
 
   const handleSort = (direction: 'asc' | 'desc') => {
-    onSort?.(direction)
+    // If the same direction is clicked again, remove the sort
+    const newDirection = currentSort === direction ? null : direction
+    onSort?.(newDirection)
     setOpen(false)
   }
 
@@ -41,12 +47,17 @@ export function ColumnHeaderPopover({
     setOpen(false)
   }
 
+  const handleHide = () => {
+    onHide?.()
+    setOpen(false)
+  }
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="h-auto p-0 font-medium justify-start hover:bg-transparent data-[state=open]:bg-accent/50"
+          className="h-auto p-0 cursor-pointer font-medium justify-start hover:bg-transparent data-[state=open]:bg-accent/50 gap-1"
         >
           {children}
         </Button>
@@ -57,11 +68,11 @@ export function ColumnHeaderPopover({
             <Button
               variant="ghost"
               size="sm"
-              className="w-full justify-start gap-2 h-8 px-2 text-sm font-normal"
+              className="w-full justify-start gap-2 h-7 px-2 font-medium"
               onClick={handleFilter}
             >
-              <FilterIcon className="h-4 w-4" />
-              Filter
+              <FilterIcon className="h-3.5 w-3.5" />
+              Filtrer
             </Button>
           )}
           {enableSorting && (
@@ -70,30 +81,41 @@ export function ColumnHeaderPopover({
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "w-full justify-start gap-2 h-8 px-2 text-sm font-normal",
+                  "w-full justify-start gap-2 h-7 px-2 font-medium",
                   currentSort === 'asc' && "bg-accent"
                 )}
                 onClick={() => handleSort('asc')}
               >
-                <ArrowUpIcon className="h-4 w-4" />
+                <ArrowUpIcon className="h-3.5 w-3.5" />
                 Trier par ordre croissant
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "w-full justify-start gap-2 h-8 px-2 text-sm font-normal",
+                  "w-full justify-start gap-2 h-7 px-2 font-medium",
                   currentSort === 'desc' && "bg-accent"
                 )}
                 onClick={() => handleSort('desc')}
               >
-                <ArrowDownIcon className="h-4 w-4" />
+                <ArrowDownIcon className="h-3.5 w-3.5" />
                 Trier par ordre décroissant
               </Button>
             </>
+          )}
+          {enableHiding && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full justify-start gap-2 h-7 px-2 font-medium"
+              onClick={handleHide}
+            >
+              <EyeOffIcon className="h-3.5 w-3.5" />
+              Masquer la colonne
+            </Button>
           )}
         </div>
       </PopoverContent>
     </Popover>
   )
-} 
+}

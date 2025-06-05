@@ -15,6 +15,7 @@ import {
   getSortedRowModel,
   useReactTable,
   type SortingState,
+  type VisibilityState,
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { LABEL_STYLES_BG, type TW_COLOR, tstColumnDefs } from './columns'
@@ -23,6 +24,7 @@ import { columnsConfig } from './filters'
 import { queries } from './queries'
 import { TableFilterSkeleton, TableSkeleton } from './table-skeleton'
 import type { IssueLabel, IssueStatus, User } from './types'
+import { ColumnVisibility } from './column-visibility'
 
 function createLabelOptions(labels: IssueLabel[] | undefined) {
   return labels?.map((l) => ({
@@ -130,6 +132,7 @@ export function IssuesTable({
   /* Step 4: Create our TanStack Table instance */
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const table = useReactTable({
     data: issues.data ?? [],
     columns: tstColumnDefs,
@@ -139,9 +142,11 @@ export function IssuesTable({
     getSortedRowModel: getSortedRowModel(),
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       rowSelection,
       sorting,
+      columnVisibility,
     },
   })
 
@@ -152,12 +157,16 @@ export function IssuesTable({
         {isOptionsDataPending ? (
           <TableFilterSkeleton />
         ) : (
+          <>
           <DataTableFilter
             filters={filters}
             columns={columns}
             actions={actions}
             strategy={strategy}
-          />
+            />
+
+            <ColumnVisibility table={table} />
+          </>
         )}
       </div>
       {issues.isLoading ? (
