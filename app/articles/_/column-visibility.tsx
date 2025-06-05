@@ -67,19 +67,22 @@ function SortableColumn({ column, columnDisplayNames }: {
 
 export function ColumnVisibility({ table }: { table: TanStackTable<any> }) {
   const columnDisplayNames: Record<string, string> = {
-    select: 'Sélectionner',
-    status: 'Statut',
-    title: 'Titre',
-    assignee: 'Assigné(e)',
-    estimatedHours: 'Heures estimées',
-    startDate: 'Date de début',
-    endDate: 'Date de fin',
-    labels: 'Étiquettes',
+    code: 'Code',
+    type: 'Type',
+    state: 'État',
+    label: 'Libellé',
+    ht: 'Prix HT',
+    tva: 'TVA (%)',
+    ttc: 'Prix TTC',
   }
 
   const [columns, setColumns] = useState(() =>
     table.getAllColumns()
       .filter(column => column.getCanHide())
+  )
+
+  const hasHiddenColumns = table.getAllColumns().some(column => 
+    column.getCanHide() && !column.getIsVisible()
   )
 
   const sensors = useSensors(
@@ -119,9 +122,12 @@ export function ColumnVisibility({ table }: { table: TanStackTable<any> }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8">
+        <Button variant="outline" size="sm" className="h-8 relative">
           <Columns3Icon className="h-4 w-4 mr-2" />
           Colonnes
+          {hasHiddenColumns && (
+            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-blue-500 rounded-full" />
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-56 p-3">

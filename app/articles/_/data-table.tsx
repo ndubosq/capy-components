@@ -11,18 +11,19 @@ import { cn } from '@/lib/utils'
 import type { DataTableFilterActions } from '@/components/data-table-filter/core/types'
 import { type Table as TanStackTable, flexRender } from '@tanstack/react-table'
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, CircleDotDashed, XIcon } from 'lucide-react'
+import { Article } from './types'
 
 export function DataTable({
   table,
   actions,
-}: { table: TanStackTable<any>; actions?: DataTableFilterActions }) {
+}: { table: TanStackTable<Article>; actions?: DataTableFilterActions }) {
   return (
     <>
-      <div className="rounded-md border bg-white dark:bg-inherit">
-        <Table>
+      <div className="border w-full [&>div]:max-h-[calc(100vh-150px)]">
+        <Table className="border-separate border-spacing-0 [&_td]:border-border [&_th]:border-b [&_th]:border-border [&_tr:not(:last-child)_td]:border-b [&_tr]:border-none">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="sticky top-0 z-10 bg-background hover:bg-background">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>

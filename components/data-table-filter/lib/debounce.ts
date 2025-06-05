@@ -18,19 +18,16 @@ export function debounce<T extends (...args: any[]) => any>(
   const { leading = false, trailing = true, maxWait } = options
   let timeout: NodeJS.Timeout | null = null
   let lastArgs: Parameters<T> | null = null
-  let lastThis: any
   let result: ReturnType<T> | undefined
   let lastCallTime: number | null = null
   let lastInvokeTime = 0
 
   const maxWaitTime = maxWait !== undefined ? Math.max(wait, maxWait) : null
 
-  function invokeFunc(time: number): ReturnType<T> | undefined {
+  function invokeFunc(time: number, thisArg: any): ReturnType<T> | undefined {
     if (lastArgs === null) return undefined
     const args = lastArgs
-    const thisArg = lastThis
     lastArgs = null
-    lastThis = null
     lastInvokeTime = time
     result = func.apply(thisArg, args)
     return result
@@ -65,27 +62,26 @@ export function debounce<T extends (...args: any[]) => any>(
       : timeWaiting
   }
 
-  function timerExpired() {
+  function timerExpired(thisArg: any) {
     const time = Date.now()
     if (shouldInvoke(time)) {
-      return trailingEdge(time)
+      return trailingEdge(time, thisArg)
     }
-    timeout = startTimer(timerExpired, remainingWait(time))
+    timeout = startTimer(() => timerExpired(thisArg), remainingWait(time))
   }
 
-  function leadingEdge(time: number): ReturnType<T> | undefined {
+  function leadingEdge(time: number, thisArg: any): ReturnType<T> | undefined {
     lastInvokeTime = time
-    timeout = startTimer(timerExpired, wait)
-    return leading ? invokeFunc(time) : undefined
+    timeout = startTimer(() => timerExpired(thisArg), wait)
+    return leading ? invokeFunc(time, thisArg) : undefined
   }
 
-  function trailingEdge(time: number): ReturnType<T> | undefined {
+  function trailingEdge(time: number, thisArg: any): ReturnType<T> | undefined {
     timeout = null
     if (trailing && lastArgs) {
-      return invokeFunc(time)
+      return invokeFunc(time, thisArg)
     }
     lastArgs = null
-    lastThis = null
     return result
   }
 
@@ -97,20 +93,19 @@ export function debounce<T extends (...args: any[]) => any>(
     const isInvoking = shouldInvoke(time)
 
     lastArgs = args
-    lastThis = this
     lastCallTime = time
 
     if (isInvoking) {
       if (timeout === null) {
-        return leadingEdge(lastCallTime)
+        return leadingEdge(lastCallTime, this)
       }
       if (maxWaitTime !== null) {
-        timeout = startTimer(timerExpired, wait)
-        return invokeFunc(lastCallTime)
+        timeout = startTimer(() => timerExpired(this), wait)
+        return invokeFunc(lastCallTime, this)
       }
     }
     if (timeout === null) {
-      timeout = startTimer(timerExpired, wait)
+      timeout = startTimer(() => timerExpired(this), wait)
     }
     return result
   }
@@ -121,13 +116,12 @@ export function debounce<T extends (...args: any[]) => any>(
     }
     lastInvokeTime = 0
     lastArgs = null
-    lastThis = null
     lastCallTime = null
     timeout = null
   }
 
-  debounced.flush = () => {
-    return timeout === null ? result : trailingEdge(Date.now())
+  debounced.flush = function(this: any) {
+    return timeout === null ? result : trailingEdge(Date.now(), this)
   }
 
   debounced.isPending = () => {

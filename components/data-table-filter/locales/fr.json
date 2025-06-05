@@ -31,12 +31,12 @@
   "filters.date.isNotBetween": "n'est pas entre",
   "filters.text.contains": "contient",
   "filters.text.doesNotContain": "ne contient pas",
-  "filters.number.is": "est",
-  "filters.number.isNot": "n'est pas",
-  "filters.number.greaterThan": "supérieur à",
-  "filters.number.greaterThanOrEqual": "supérieur ou égal à",
-  "filters.number.lessThan": "inférieur à",
-  "filters.number.lessThanOrEqual": "inférieur ou égal à",
+  "filters.number.is": "=",
+  "filters.number.isNot": "!=",
+  "filters.number.greaterThan": ">",
+  "filters.number.greaterThanOrEqual": ">=",
+  "filters.number.lessThan": "<",
+  "filters.number.lessThanOrEqual": "<=",
   "filters.number.isBetween": "est entre",
   "filters.number.isNotBetween": "n'est pas entre"
 }

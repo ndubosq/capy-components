@@ -1,6 +1,5 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 import {
   DataTableFilter,
@@ -59,7 +58,15 @@ function createStatusOptions(statuses: ArticleState[] | undefined) {
   return statuses?.map((s) => ({
     value: s.id,
     label: s.name,
-    icon: s.icon,
+    icon: (
+      <div
+        key={s.id}
+        className={cn(
+          'size-2.5 rounded-full',
+          LABEL_STYLES_BG[s.color as TW_COLOR],
+        )}
+      />
+    ),
   }))
 }
 
@@ -68,16 +75,13 @@ function createTypeOptions(types: ArticleType[] | undefined) {
     value: t.id,
     label: t.name,
     icon: (
-      <Avatar key={t.id} className="size-4">
-        <AvatarImage src="" />
-        <AvatarFallback>
-          {t.name
-            .split('')
-            .map((x) => x[0])
-            .join('')
-            .toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      <div
+        key={t.id}
+        className={cn(
+          'size-2.5 rounded-full',
+          LABEL_STYLES_BG[t.color as TW_COLOR],
+        )}
+      />
     ),
   }))
 }
@@ -87,9 +91,13 @@ function createTVAOptions(tvas: ArticleTVA[] | undefined) {
     value: t.id,
     label: `${t.name}`,
     icon: (
-        <div className="text-xs font-mono">
-          {t.rate}%
-        </div>
+      <div
+        key={t.id}
+        className={cn(
+          'size-2.5 rounded-full',
+          LABEL_STYLES_BG[t.color as TW_COLOR],
+        )}
+      />
     ),
   }))
 }
@@ -180,7 +188,7 @@ export function IssuesTable({
     state: {
       rowSelection,
       sorting,
-      columnVisibility,
+      columnVisibility
     },
   })
 

@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { ArrowDownIcon, ArrowUpIcon, FilterIcon, EyeOffIcon } from "lucide-react"
+import { ArrowDownIcon, ArrowUpIcon, FilterIcon, EyeOffIcon, ChevronDownCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface ColumnHeaderPopoverProps {
@@ -57,8 +57,9 @@ export function ColumnHeaderPopover({
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="h-auto p-0 cursor-pointer font-medium justify-start hover:bg-transparent data-[state=open]:bg-accent/50 gap-1"
+          className="h-full rounded-none w-full p-0 cursor-pointer font-medium justify-start data-[state=open]:bg-accent/50 gap-1 hover:bg-accent"
         >
+          <ChevronDownCircle className="h-3.5 w-3.5" />
           {children}
         </Button>
       </PopoverTrigger>

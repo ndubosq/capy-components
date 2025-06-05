@@ -1,10 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnHeaderPopover } from '@/components/ui/column-header-popover'
 import { cn } from '@/lib/utils'
 import { createColumnHelper } from '@tanstack/react-table'
-import { format } from 'date-fns'
-import { CircleDashedIcon } from 'lucide-react'
 import type { Article, ArticleTVA } from './types'
 import { useFilterContext } from './issues-table'
 
@@ -37,6 +34,9 @@ export const LABEL_STYLES_MAP = {
   rose: 'bg-rose-100 border-rose-200 text-rose-800 dark:bg-rose-800 dark:border-rose-700 dark:text-rose-100',
   neutral:
     'bg-neutral-100 border-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-100',
+  black: 'bg-black-100 border-black-200 text-black-800 dark:bg-black-800 dark:border-black-700 dark:text-black-100',
+  gray: 'bg-gray-100 border-gray-200 text-gray-800 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100',
+  white: 'bg-white',
 } as const
 
 export const LABEL_STYLES_BG = {
@@ -58,6 +58,9 @@ export const LABEL_STYLES_BG = {
   pink: 'bg-pink-500',
   rose: 'bg-rose-500',
   neutral: 'bg-neutral-500',
+  black: 'bg-black-500',
+  gray: 'bg-gray-500',
+  white: 'bg-white',
 } as const
 
 export type TW_COLOR = keyof typeof LABEL_STYLES_MAP
@@ -115,26 +118,6 @@ export const tstColumnDefs = [
       )
     },
   }),
-  columnHelper.accessor((row) => row.label, {
-    id: 'label',
-    header: ({ column }) => {
-      const { openFilter } = useFilterContext()
-      return (
-        <ColumnHeaderPopover
-          columnId="label"
-          currentSort={column.getIsSorted() || null}
-          onSort={(direction) => column.toggleSorting(direction === 'desc')}
-          onFilter={() => openFilter('label')}
-          onHide={() => column.toggleVisibility(false)}
-        >
-          Libellé
-        </ColumnHeaderPopover>
-      )
-    },
-    enableColumnFilter: true,
-    enableSorting: true,
-    cell: ({ row }) => <div>{row.getValue('label')}</div>,
-  }),
   columnHelper.accessor((row) => row.type.id, {
     id: 'type',
     header: ({ column }) => {
@@ -158,8 +141,13 @@ export const tstColumnDefs = [
       const TypeIcon = type.icon
 
       return (
-        <div className="flex items-center gap-2">
-          <TypeIcon className="size-4" />
+        <div
+          className={cn(
+            'flex items-center gap-2 py-0.5 px-1.5 rounded-xl text-[12px] shadow-xs font-medium border max-w-fit',
+            LABEL_STYLES_MAP[type.color as TW_COLOR],
+          )}
+        >
+          <TypeIcon className="size-3" />
           <span>{type.name}</span>
         </div>
       )
@@ -188,12 +176,37 @@ export const tstColumnDefs = [
       const StateIcon = state.icon
 
       return (
-        <div className="flex items-center gap-2">
-          <StateIcon className="size-4" />
+        <div
+          className={cn(
+            'flex items-center gap-2 py-0.5 px-1.5 rounded-xl text-[12px] shadow-xs font-medium border max-w-fit',
+            LABEL_STYLES_MAP[state.color as TW_COLOR],
+          )}
+        >
+          <StateIcon className="size-3" />
           <span>{state.name}</span>
         </div>
       )
     },
+  }),
+  columnHelper.accessor((row) => row.label, {
+    id: 'label',
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="label"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('label')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Libellé
+        </ColumnHeaderPopover>
+      )
+    },
+    enableColumnFilter: true,
+    enableSorting: true,
+    cell: ({ row }) => <div>{row.getValue('label')}</div>,
   }),
   columnHelper.accessor((row) => row.ht, {
     id: 'ht',
@@ -243,9 +256,14 @@ export const tstColumnDefs = [
     cell: ({ row }) => {
       const tva = row.getValue<ArticleTVA>('tva')
       return (
-        <span className="tabular-nums tracking-tighter text-right w-full">
+        <div
+          className={cn(
+            'flex items-center gap-2 py-0.5 px-1.5 rounded-xl text-[12px] shadow-xs font-medium border max-w-fit',
+            LABEL_STYLES_MAP[tva.color as TW_COLOR],
+          )}
+        >
           {tva.name}
-        </span>
+        </div>
       )
     },
   }),

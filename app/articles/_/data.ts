@@ -1,5 +1,4 @@
 import { lorem } from '@ndaidong/txtgen'
-import { sub } from 'date-fns'
 import {
   PackageIcon,
   WrenchIcon,
@@ -15,18 +14,21 @@ import { Article, ArticleLabel, ArticleState, ArticleType, ArticleTVA } from './
 export const ARTICLE_TYPES: ArticleType[] = [
   {
     id: 'product',
-    name: 'Product',
+    name: 'Produit',
     icon: PackageIcon,
+    color: 'blue',
   },
   {
     id: 'service',
     name: 'Service',
     icon: WrenchIcon,
+    color: 'green',
   },
   {
     id: 'annotation',
     name: 'Annotation',
     icon: StickyNoteIcon,
+    color: 'purple',
   },
 ] as const;
 
@@ -35,40 +37,47 @@ export const TVA_RATES: ArticleTVA[] = [
   {
     id: '20',
     name: '20%',
-    rate: 0.2
+    rate: 0.2,
+    color: 'red'
   },
   {
     id: '10', 
     name: '10%',
-    rate: 0.1
+    rate: 0.1,
+    color: 'orange'
   },
   {
     id: '5.5',
     name: '5.5%', 
-    rate: 0.055
+    rate: 0.055,
+    color: 'yellow'
   },
   {
     id: '2.1',
     name: '2.1%',
-    rate: 0.021
+    rate: 0.021,
+    color: 'green'
   }
 ] as const;
 
 export const ARTICLE_STATES: ArticleState[] = [
   {
     id: 'active',
-    name: 'Active',
+    name: 'Actif',
     icon: CircleCheckIcon,
+    color: 'blue',
   },
   {
     id: 'inactive',
-    name: 'Inactive',
+    name: 'Inactif',
     icon: CircleDashedIcon,
+    color: 'neutral',
   },
   {
     id: 'draft',
-    name: 'Draft',
+    name: 'Brouillon',
     icon: CircleDotIcon,
+    color: 'white',
   },
 ] as const
 
@@ -99,60 +108,59 @@ export function generateArticleCode() {
   const number = Math.floor(Math.random() * 9999).toString().padStart(4, '0')
   return `${prefix}-${number}`
 }
-
 export function generateArticleLabel() {
   const productNames = [
-    'Laptop Computer',
-    'Wireless Headphones',
-    'Smart Watch',
-    'Coffee Maker',
-    'Desk Chair',
-    'Monitor Stand',
-    'Bluetooth Speaker',
-    'Tablet Device',
-    'Gaming Mouse',
-    'Keyboard Mechanical',
-    'Phone Case',
-    'Power Bank',
-    'USB Cable',
+    'Ordinateur Portable',
+    'Écouteurs Sans Fil',
+    'Montre Connectée',
+    'Cafetière',
+    'Chaise de Bureau',
+    'Support d\'Écran',
+    'Enceinte Bluetooth',
+    'Tablette',
+    'Souris Gaming',
+    'Clavier Mécanique', 
+    'Coque Téléphone',
+    'Batterie Externe',
+    'Câble USB',
     'Webcam HD',
     'Microphone USB',
-    'Printer Inkjet',
+    'Imprimante Jet d\'Encre',
     'Scanner Document',
-    'Hard Drive External',
-    'Memory Card',
-    'Router Wireless',
+    'Disque Dur Externe',
+    'Carte Mémoire',
+    'Routeur Sans Fil',
   ]
   
   const serviceNames = [
-    'Technical Support',
-    'Installation Service',
-    'Maintenance Contract',
-    'Training Session',
-    'Consultation Hour',
-    'Design Service',
-    'Data Migration',
-    'System Setup',
-    'Repair Service',
-    'Warranty Extension',
-    'Cloud Storage',
-    'Backup Service',
-    'Security Audit',
-    'Performance Optimization',
-    'Custom Development',
+    'Support Technique',
+    'Service d\'Installation',
+    'Contrat de Maintenance',
+    'Session de Formation',
+    'Heure de Consultation',
+    'Service de Design',
+    'Migration de Données',
+    'Configuration Système',
+    'Service de Réparation',
+    'Extension de Garantie',
+    'Stockage Cloud',
+    'Service de Sauvegarde',
+    'Audit de Sécurité',
+    'Optimisation des Performances',
+    'Développement Sur Mesure',
   ]
 
   const annotationNames = [
-    'Special Handling Required',
-    'Fragile Item',
-    'Express Delivery',
-    'Gift Wrapping',
-    'Extended Warranty',
-    'Bulk Discount Available',
-    'Limited Edition',
-    'Discontinued Item',
-    'Pre-order Item',
-    'Digital Download',
+    'Manipulation Spéciale Requise',
+    'Article Fragile',
+    'Livraison Express',
+    'Emballage Cadeau',
+    'Garantie Prolongée',
+    'Remise en Volume Disponible',
+    'Édition Limitée',
+    'Article Discontinué',
+    'Article en Pré-commande',
+    'Téléchargement Numérique',
   ]
 
   const allNames = [...productNames, ...serviceNames, ...annotationNames]
