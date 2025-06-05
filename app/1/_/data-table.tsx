@@ -10,7 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import type { DataTableFilterActions } from '@/components/data-table-filter/core/types'
 import { type Table as TanStackTable, flexRender } from '@tanstack/react-table'
-import { CircleOff, XIcon } from 'lucide-react'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, CircleOff, XIcon } from 'lucide-react'
 
 export function DataTable({
   table,
@@ -29,9 +29,9 @@ export function DataTable({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   )
                 })}
@@ -65,10 +65,10 @@ export function DataTable({
                   <div className="flex flex-col items-center justify-center gap-8">
                     <CircleOff className="size-24 stroke-muted-foreground" />
                     <div className="flex flex-col gap-4 text-center font-[450]">
-                      <span>No data found.</span>
+                      <span>Aucun résultat trouvé.</span>
                       <div className="flex items-center gap-2">
                         <span className="text-muted-foreground">
-                          Adjust or clear filters to reveal data.
+                          Ajustez ou effacez les filtres pour afficher les données.
                         </span>
                         <Button
                           variant="ghost"
@@ -90,28 +90,51 @@ export function DataTable({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground tabular-nums">
-          {table.getFilteredSelectedRowModel().rows.length} of{' '}
-          {table.getFilteredRowModel().rows.length} row(s) selected.{' '}
+          {table.getFilteredSelectedRowModel().rows.length > 0 && (
+            <>
+              {table.getFilteredSelectedRowModel().rows.length === 1 ? '1 sélectionné' : `${table.getFilteredSelectedRowModel().rows.length} sélectionnés`} sur{' '}
+            </>
+          )}
           <span className="text-primary font-medium">
-            Total row count: {table.getCoreRowModel().rows.length}
+            {table.getCoreRowModel().rows.length === 1 ? '1 résultat' : `${table.getCoreRowModel().rows.length} résultats`}
           </span>
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
+            className="cursor-pointer"
+            size="sm"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronsLeftIcon className="size-4" />
+          </Button>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            <ChevronLeftIcon className="size-4" />
           </Button>
           <Button
             variant="outline"
+            className="cursor-pointer"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            <ChevronRightIcon className="size-4" />
+          </Button>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            size="sm"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronsRightIcon className="size-4" />
           </Button>
         </div>
       </div>
