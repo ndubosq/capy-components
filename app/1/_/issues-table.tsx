@@ -7,6 +7,7 @@ import {
   useDataTableFilters,
 } from '@/components/data-table-filter'
 import type { FiltersState } from '@/components/data-table-filter/core/types'
+import type { FilterSelectorRef } from '@/components/data-table-filter/components/filter-selector'
 // import { createTSTColumns } from '@/components/data-table-filter/integrations/tanstack-table'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -17,7 +18,7 @@ import {
   type SortingState,
   type VisibilityState,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useState, useRef, createContext, useContext } from 'react'
 import { LABEL_STYLES_BG, type TW_COLOR, tstColumnDefs } from './columns'
 import { DataTable } from './data-table'
 import { columnsConfig } from './filters'
@@ -25,6 +26,19 @@ import { queries } from './queries'
 import { TableFilterSkeleton, TableSkeleton } from './table-skeleton'
 import type { IssueLabel, IssueStatus, User } from './types'
 import { ColumnVisibility } from './column-visibility'
+
+// Create context for filter functionality
+const FilterContext = createContext<{
+  openFilter: (columnId: string) => void
+} | null>(null)
+
+export const useFilterContext = () => {
+  const context = useContext(FilterContext)
+  if (!context) {
+    throw new Error('useFilterContext must be used within FilterContext.Provider')
+  }
+  return context
+}
 
 function createLabelOptions(labels: IssueLabel[] | undefined) {
   return labels?.map((l) => ({
@@ -76,6 +90,8 @@ export function IssuesTable({
     setFilters: React.Dispatch<React.SetStateAction<FiltersState>>
   }
 }) {
+  const filterSelectorRef = useRef<FilterSelectorRef>(null)
+
   /* Step 1: Fetch data from the server */
   const labels = useQuery(queries.labels.all())
   const statuses = useQuery(queries.statuses.all())
@@ -152,30 +168,35 @@ export function IssuesTable({
 
   /* Step 5: Render the table! */
   return (
-    <div className="w-full col-span-2">
-      <div className="flex items-center pb-4 gap-2">
-        {isOptionsDataPending ? (
-          <TableFilterSkeleton />
-        ) : (
-          <>
-          <DataTableFilter
-            filters={filters}
-            columns={columns}
-            actions={actions}
-            strategy={strategy}
-            />
+    <FilterContext.Provider value={{ 
+      openFilter: (columnId: string) => filterSelectorRef.current?.openWithColumn(columnId)
+    }}>
+      <div className="w-full col-span-2">
+        <div className="flex items-center pb-4 gap-2">
+          {isOptionsDataPending ? (
+            <TableFilterSkeleton />
+          ) : (
+            <>
+            <DataTableFilter
+              ref={filterSelectorRef}
+              filters={filters}
+              columns={columns}
+              actions={actions}
+              strategy={strategy}
+              />
 
-            <ColumnVisibility table={table} />
-          </>
+              <ColumnVisibility table={table} />
+            </>
+          )}
+        </div>
+        {issues.isLoading ? (
+          <div className="w-full col-span-2">
+            <TableSkeleton numCols={tstColumnDefs.length} numRows={10} />
+          </div>
+        ) : (
+          <DataTable table={table} actions={actions} />
         )}
       </div>
-      {issues.isLoading ? (
-        <div className="w-full col-span-2">
-          <TableSkeleton numCols={tstColumnDefs.length} numRows={10} />
-        </div>
-      ) : (
-        <DataTable table={table} actions={actions} />
-      )}
-    </div>
+    </FilterContext.Provider>
   )
 }

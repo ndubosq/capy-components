@@ -67,14 +67,14 @@ function SortableColumn({ column, columnDisplayNames }: {
 
 export function ColumnVisibility({ table }: { table: TanStackTable<any> }) {
   const columnDisplayNames: Record<string, string> = {
-    select: 'Select',
-    status: 'Status',
-    title: 'Title',
-    assignee: 'Assignee',
-    estimatedHours: 'Estimated Hours',
-    startDate: 'Start Date',
-    endDate: 'End Date',
-    labels: 'Labels',
+    select: 'Sélectionner',
+    status: 'Statut',
+    title: 'Titre',
+    assignee: 'Assigné(e)',
+    estimatedHours: 'Heures estimées',
+    startDate: 'Date de début',
+    endDate: 'Date de fin',
+    labels: 'Étiquettes',
   }
 
   const [columns, setColumns] = useState(() =>
@@ -121,12 +121,12 @@ export function ColumnVisibility({ table }: { table: TanStackTable<any> }) {
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className="h-8">
           <Columns3Icon className="h-4 w-4 mr-2" />
-          Columns
+          Colonnes
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-56 p-3">
         <div className="space-y-2">
-          <div className="font-medium text-sm mb-3">Toggle Columns</div>
+          <div className="font-medium text-sm mb-3">Afficher/Masquer les colonnes</div>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}

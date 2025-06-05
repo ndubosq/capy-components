@@ -77,7 +77,7 @@ export function DataTable({
                           onClick={actions?.removeAllFilters}
                         >
                           <XIcon className="text-muted-foreground" />
-                          Clear filters
+                          Effacer les filtres
                         </Button>
                       </div>
                     </div>

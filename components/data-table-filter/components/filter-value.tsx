@@ -108,7 +108,7 @@ export function FilterValueDisplay<TData, TType extends ColumnDataType>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, TType>) {
   switch (column.type) {
     case 'option':
@@ -165,7 +165,7 @@ export function FilterValueOptionDisplay<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, 'option'>) {
   const options = useMemo(() => column.getOptions(), [column])
   const selected = options.filter((o) => filter?.values.includes(o.value))
@@ -220,7 +220,7 @@ export function FilterValueMultiOptionDisplay<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, 'multiOption'>) {
   const options = useMemo(() => column.getOptions(), [column])
   const selected = options.filter((o) => filter.values.includes(o.value))
@@ -286,7 +286,7 @@ export function FilterValueDateDisplay<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, 'date'>) {
   if (!filter) return null
   if (filter.values.length === 0) return <Ellipsis className="size-4" />
@@ -307,7 +307,7 @@ export function FilterValueTextDisplay<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, 'text'>) {
   if (!filter) return null
   if (filter.values.length === 0 || filter.values[0].trim() === '')
@@ -322,7 +322,7 @@ export function FilterValueNumberDisplay<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueDisplayProps<TData, 'number'>) {
   if (!filter || !filter.values || filter.values.length === 0) return null
 
@@ -363,7 +363,7 @@ function __FilterValueController<TData, TType extends ColumnDataType>({
   column,
   actions,
   strategy,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueControllerProps<TData, TType>) {
   switch (column.type) {
     case 'option':
@@ -474,7 +474,7 @@ export function FilterValueOptionController<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueControllerProps<TData, 'option'>) {
   // Compute initial options once per mount
   const initialOptions = useMemo(() => {
@@ -550,7 +550,7 @@ export function FilterValueMultiOptionController<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueControllerProps<TData, 'multiOption'>) {
   // Compute initial options once per mount
   const initialOptions = useMemo(() => {
@@ -674,7 +674,7 @@ export function FilterValueTextController<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueControllerProps<TData, 'text'>) {
   const changeText = (value: string | number) => {
     actions.setFilterValue(column, [String(value)])
@@ -702,7 +702,7 @@ export function FilterValueNumberController<TData>({
   filter,
   column,
   actions,
-  locale = 'en',
+  locale = 'fr',
 }: FilterValueControllerProps<TData, 'number'>) {
   const minMax = useMemo(() => column.getFacetedMinMaxValues(), [column])
   const [sliderMin, sliderMax] = [

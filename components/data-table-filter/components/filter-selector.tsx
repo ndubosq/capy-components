@@ -23,6 +23,8 @@ import {
   useMemo,
   useRef,
   useState,
+  forwardRef,
+  useImperativeHandle,
 } from 'react'
 import React from 'react'
 import type {
@@ -45,19 +47,32 @@ interface FilterSelectorProps<TData> {
   locale?: Locale
 }
 
-export const FilterSelector = memo(__FilterSelector) as typeof __FilterSelector
+export interface FilterSelectorRef {
+  openWithColumn: (columnId: string) => void
+}
+
+export const FilterSelector = memo(
+  forwardRef<FilterSelectorRef, FilterSelectorProps<any>>(__FilterSelector),
+) as <TData>(props: FilterSelectorProps<TData> & { ref?: React.Ref<FilterSelectorRef> }) => React.ReactElement
 
 function __FilterSelector<TData>({
   filters,
   columns,
   actions,
   strategy,
-  locale = 'en',
-}: FilterSelectorProps<TData>) {
+  locale = 'fr',
+}: FilterSelectorProps<TData>, ref: React.Ref<FilterSelectorRef>) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
   const [property, setProperty] = useState<string | undefined>(undefined)
+  const [value, setValue] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    openWithColumn: (columnId: string) => {
+      setProperty(columnId)
+      setOpen(true)
+    }
+  }))
 
   const column = property ? getColumn(columns, property) : undefined
   const filter = property
@@ -237,7 +252,7 @@ function __QuickSearchFilters<TData>({
   columns,
   actions,
   strategy,
-  locale = 'en',
+  locale = 'fr',
 }: QuickSearchFiltersProps<TData>) {
   if (!search || search.trim().length < 2) return null
 

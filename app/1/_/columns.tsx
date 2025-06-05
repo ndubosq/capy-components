@@ -6,6 +6,7 @@ import { createColumnHelper } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { CircleDashedIcon } from 'lucide-react'
 import type { Issue } from './types'
+import { useFilterContext } from './issues-table'
 
 export const LABEL_STYLES_MAP = {
   red: 'bg-red-100 border-red-200 text-red-800 dark:bg-red-800 dark:border-red-700 dark:text-red-100',
@@ -73,14 +74,14 @@ export const tstColumnDefs = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Tout sélectionner"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Sélectionner la ligne"
       />
     ),
     enableSorting: false,
@@ -89,20 +90,20 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.status.id, {
     id: 'status',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="status"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for status')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Status
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="status"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('status')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Statut
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => {
@@ -119,40 +120,40 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.title, {
     id: 'title',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="title"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for title')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Title
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="title"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('title')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Titre
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => <div>{row.getValue('title')}</div>,
   }),
   columnHelper.accessor((row) => row.assignee?.id, {
     id: 'assignee',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="assignee"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for assignee')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Assignee
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="assignee"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('assignee')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Assigné(e)
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => {
@@ -178,20 +179,20 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.estimatedHours, {
     id: 'estimatedHours',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="estimatedHours"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for estimatedHours')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Estimated Hours
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="estimatedHours"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('estimatedHours')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Heures estimées
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => {
@@ -213,20 +214,20 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.startDate, {
     id: 'startDate',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="startDate"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for startDate')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Start Date
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="startDate"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('startDate')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Date de début
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => {
@@ -243,20 +244,20 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.endDate, {
     id: 'endDate',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="endDate"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for endDate')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        End Date
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="endDate"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('endDate')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Date de fin
+        </ColumnHeaderPopover>
+      )
+    },
     enableSorting: true,
     cell: ({ row }) => {
       const endDate = row.getValue<Issue['endDate']>('endDate')
@@ -272,20 +273,20 @@ export const tstColumnDefs = [
   }),
   columnHelper.accessor((row) => row.labels?.map((l) => l.id), {
     id: 'labels',
-    header: ({ column }) => (
-      <ColumnHeaderPopover
-        columnId="labels"
-        currentSort={column.getIsSorted() || null}
-        onSort={(direction) => column.toggleSorting(direction === 'desc')}
-        onFilter={() => {
-          // TODO: Implement filter opening logic
-          console.log('Open filter for labels')
-        }}
-        onHide={() => column.toggleVisibility(false)}
-      >
-        Labels
-      </ColumnHeaderPopover>
-    ),
+    header: ({ column }) => {
+      const { openFilter } = useFilterContext()
+      return (
+        <ColumnHeaderPopover
+          columnId="labels"
+          currentSort={column.getIsSorted() || null}
+          onSort={(direction) => column.toggleSorting(direction === 'desc')}
+          onFilter={() => openFilter('labels')}
+          onHide={() => column.toggleVisibility(false)}
+        >
+          Étiquettes
+        </ColumnHeaderPopover>
+      )
+    },
     enableColumnFilter: true,
     enableSorting: true,
     cell: ({ row }) => {

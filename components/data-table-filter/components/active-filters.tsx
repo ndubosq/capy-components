@@ -29,7 +29,7 @@ export function ActiveFilters<TData>({
   filters,
   actions,
   strategy,
-  locale = 'en',
+  locale = 'fr',
 }: ActiveFiltersProps<TData>) {
   return (
     <>
@@ -70,7 +70,7 @@ export function ActiveFilter<TData, TType extends ColumnDataType>({
   column,
   actions,
   strategy,
-  locale = 'en',
+  locale = 'fr',
 }: ActiveFilterProps<TData, TType>) {
   return (
     <div className="flex h-7 items-center rounded-2xl border border-border bg-background shadow-xs text-xs">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useIsMobile } from '@/hooks/use-mobile'
+import { forwardRef } from 'react'
 import type {
   Column,
   DataTableFilterActions,
@@ -10,7 +11,7 @@ import type {
 import type { Locale } from '../lib/i18n'
 import { ActiveFilters, ActiveFiltersMobileContainer } from './active-filters'
 import { FilterActions } from './filter-actions'
-import { FilterSelector } from './filter-selector'
+import { FilterSelector, type FilterSelectorRef } from './filter-selector'
 
 interface DataTableFilterProps<TData> {
   columns: Column<TData>[]
@@ -20,19 +21,20 @@ interface DataTableFilterProps<TData> {
   locale?: Locale
 }
 
-export function DataTableFilter<TData>({
+export const DataTableFilter = forwardRef<FilterSelectorRef, DataTableFilterProps<any>>(function DataTableFilter<TData>({
   columns,
   filters,
   actions,
   strategy,
-  locale = 'en',
-}: DataTableFilterProps<TData>) {
+  locale = 'fr',
+}: DataTableFilterProps<TData>, ref: React.Ref<FilterSelectorRef>) {
   const isMobile = useIsMobile()
   if (isMobile) {
     return (
       <div className="flex w-full items-start justify-between gap-2">
         <div className="flex gap-1">
           <FilterSelector
+            ref={ref}
             columns={columns}
             filters={filters}
             actions={actions}
@@ -62,6 +64,7 @@ export function DataTableFilter<TData>({
     <div className="flex w-full items-start justify-between gap-2">
       <div className="flex md:flex-wrap gap-2 w-full flex-1">
         <FilterSelector
+          ref={ref}
           columns={columns}
           filters={filters}
           actions={actions}
@@ -83,4 +86,4 @@ export function DataTableFilter<TData>({
       />
     </div>
   )
-}
+})
