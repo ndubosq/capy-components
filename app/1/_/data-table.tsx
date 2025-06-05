@@ -10,7 +10,7 @@ import {
 import { cn } from '@/lib/utils'
 import type { DataTableFilterActions } from '@/components/data-table-filter/core/types'
 import { type Table as TanStackTable, flexRender } from '@tanstack/react-table'
-import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, CircleOff, XIcon } from 'lucide-react'
+import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon, CircleDotDashed, XIcon } from 'lucide-react'
 
 export function DataTable({
   table,
@@ -63,15 +63,15 @@ export function DataTable({
                   className="h-[calc(var(--spacing)*12*10)]"
                 >
                   <div className="flex flex-col items-center justify-center gap-8">
-                    <CircleOff className="size-24 stroke-muted-foreground" />
+                    <CircleDotDashed className="size-24 stroke-muted-foreground" />
                     <div className="flex flex-col gap-4 text-center font-[450]">
                       <span>Aucun résultat trouvé.</span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-col items-center gap-2">
                         <span className="text-muted-foreground">
                           Ajustez ou effacez les filtres pour afficher les données.
                         </span>
                         <Button
-                          variant="ghost"
+                          variant="outline"
                           size="sm"
                           className={cn('gap-1', !actions && 'hidden')}
                           onClick={actions?.removeAllFilters}
