@@ -9,28 +9,7 @@ import {
 } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import { randomInteger, sample } from 'remeda'
-import { Article, ArticleLabel, ArticleState, ArticleType, ArticleTVA } from './types'
-
-export const ARTICLE_TYPES: ArticleType[] = [
-  {
-    id: 'product',
-    name: 'Produit',
-    icon: PackageIcon,
-    color: 'blue',
-  },
-  {
-    id: 'service',
-    name: 'Service',
-    icon: WrenchIcon,
-    color: 'green',
-  },
-  {
-    id: 'annotation',
-    name: 'Annotation',
-    icon: StickyNoteIcon,
-    color: 'purple',
-  },
-] as const;
+import { Article, ArticleLabel, ArticleState, ArticleTVA } from './types'
 
 
 export const TVA_RATES: ArticleTVA[] = [
@@ -38,25 +17,25 @@ export const TVA_RATES: ArticleTVA[] = [
     id: '20',
     name: '20%',
     rate: 0.2,
-    color: 'red'
+    color: 'white'
   },
   {
     id: '10', 
     name: '10%',
     rate: 0.1,
-    color: 'orange'
+    color: 'white'
   },
   {
     id: '5.5',
     name: '5.5%', 
     rate: 0.055,
-    color: 'yellow'
+    color: 'white'
   },
   {
     id: '2.1',
     name: '2.1%',
     rate: 0.021,
-    color: 'green'
+    color: 'white'
   }
 ] as const;
 
@@ -172,9 +151,6 @@ export function generateSampleArticle(): Article {
   const label = generateArticleLabel()
   const content = Math.random() > 0.3 ? lorem(2, 6) : undefined
 
-  const [type] = sample(ARTICLE_TYPES, 1)
-  if (!type) throw new Error('No article type found')
-
   const [state] = sample(ARTICLE_STATES, 1)
   if (!state) throw new Error('No article state found')
 
@@ -189,7 +165,6 @@ export function generateSampleArticle(): Article {
   return {
     id: nanoid(),
     code,
-    type,
     state,
     label,
     content,

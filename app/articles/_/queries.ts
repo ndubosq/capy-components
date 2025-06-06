@@ -3,11 +3,9 @@ import type { QueryOptions } from '@tanstack/react-query'
 import {
   fetchFacetedPriceRange,
   fetchFacetedArticleStates,
-  fetchFacetedArticleTypes,
   fetchArticles,
   fetchArticleLabels,
   fetchArticleStates,
-  fetchArticleTypes,
   fetchFacetedTVA,
   fetchArticleTVA,
 } from './fetch'
@@ -40,18 +38,6 @@ export const queries = {
       ({
         queryKey: ['labels', 'faceted'],
         queryFn: () => fetchFacetedArticleStates(),
-      }) satisfies QueryOptions,
-  },
-  users: {
-    all: () =>
-      ({
-        queryKey: ['types'],
-        queryFn: () => fetchArticleTypes(),
-      }) satisfies QueryOptions,
-    faceted: () =>
-      ({
-        queryKey: ['types', 'faceted'],
-        queryFn: () => fetchFacetedArticleTypes(),
       }) satisfies QueryOptions,
   },
   estimatedHours: {

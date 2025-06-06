@@ -118,41 +118,6 @@ export const tstColumnDefs = [
       )
     },
   }),
-  columnHelper.accessor((row) => row.type.id, {
-    id: 'type',
-    header: ({ column }) => {
-      const { openFilter } = useFilterContext()
-      return (
-        <ColumnHeaderPopover
-          columnId="type"
-          currentSort={column.getIsSorted() || null}
-          onSort={(direction) => column.toggleSorting(direction === 'desc')}
-          onFilter={() => openFilter('type')}
-          onHide={() => column.toggleVisibility(false)}
-        >
-          Type
-        </ColumnHeaderPopover>
-      )
-    },
-    enableColumnFilter: true,
-    enableSorting: true,
-    cell: ({ row }) => {
-      const { type } = row.original
-      const TypeIcon = type.icon
-
-      return (
-        <div
-          className={cn(
-            'flex items-center gap-2 py-0.5 px-1.5 rounded-xl text-[12px] shadow-xs font-medium border max-w-fit',
-            LABEL_STYLES_MAP[type.color as TW_COLOR],
-          )}
-        >
-          <TypeIcon className="size-3" />
-          <span>{type.name}</span>
-        </div>
-      )
-    },
-  }),
   columnHelper.accessor((row) => row.state.id, {
     id: 'state',
     header: ({ column }) => {

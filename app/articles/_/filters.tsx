@@ -21,13 +21,6 @@ export const columnsConfig = [
     .build(),
   dtf
     .option()
-    .accessor((row) => row.type.id)
-    .id('type')
-    .displayName('Type')
-    .icon(TagsIcon)
-    .build(),
-  dtf
-    .option()
     .accessor((row) => row.state.id)
     .id('state')
     .displayName('State')

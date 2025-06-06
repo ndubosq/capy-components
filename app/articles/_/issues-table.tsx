@@ -23,7 +23,7 @@ import { DataTable } from './data-table'
 import { columnsConfig } from './filters'
 import { queries } from './queries'
 import { TableFilterSkeleton, TableSkeleton } from './table-skeleton'
-import type { ArticleLabel, ArticleState, ArticleTVA, ArticleType } from './types'
+import type { ArticleLabel, ArticleState, ArticleTVA } from './types'
 import { ColumnVisibility } from './column-visibility'
 
 // Create context for filter functionality
@@ -70,22 +70,6 @@ function createStatusOptions(statuses: ArticleState[] | undefined) {
   }))
 }
 
-function createTypeOptions(types: ArticleType[] | undefined) {
-  return types?.map((t) => ({
-    value: t.id,
-    label: t.name,
-    icon: (
-      <div
-        key={t.id}
-        className={cn(
-          'size-2.5 rounded-full',
-          LABEL_STYLES_BG[t.color as TW_COLOR],
-        )}
-      />
-    ),
-  }))
-}
-
 function createTVAOptions(tvas: ArticleTVA[] | undefined) {
   return tvas?.map((t) => ({
     value: t.id,
@@ -115,12 +99,10 @@ export function IssuesTable({
   /* Step 1: Fetch data from the server */
   const labels = useQuery(queries.labels.all())
   const statuses = useQuery(queries.statuses.all())
-  const types = useQuery(queries.users.all()) // Using 'users' query for types due to existing structure
   const tva = useQuery(queries.tva.all())
 
   const facetedLabels = useQuery(queries.labels.faceted())
   const facetedStatuses = useQuery(queries.statuses.faceted())
-  const facetedTypes = useQuery(queries.users.faceted()) // Using 'users' query for types
   const facetedTVA = useQuery(queries.tva.faceted())
   const facetedPriceRange = useQuery(queries.estimatedHours.faceted())
 
@@ -129,17 +111,14 @@ export function IssuesTable({
   /* Step 2: Create ColumnOption[] for each option-based column */
   const labelOptions = createLabelOptions(labels.data)
   const statusOptions = createStatusOptions(statuses.data)
-  const typeOptions = createTypeOptions(types.data)
   const tvaOptions = createTVAOptions(tva.data)
 
   const isOptionsDataPending =
     labels.isPending ||
     statuses.isPending ||
-    types.isPending ||
     tva.isPending ||
     facetedLabels.isPending ||
     facetedStatuses.isPending ||
-    facetedTypes.isPending ||
     facetedTVA.isPending ||
     facetedPriceRange.isPending
 
@@ -159,12 +138,10 @@ export function IssuesTable({
     onFiltersChange: state.setFilters,
     options: {
       state: statusOptions,
-      type: typeOptions,
       tva: tvaOptions,
     },
     faceted: {
       state: facetedStatuses.data,
-      type: facetedTypes.data,
       tva: facetedTVA.data,
       ht: facetedPriceRange.data?.ht,
       ttc: facetedPriceRange.data?.ttc,

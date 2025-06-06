@@ -57,7 +57,7 @@ export function ColumnHeaderPopover({
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
-          className="h-full rounded-none w-full p-0 cursor-pointer font-medium justify-start data-[state=open]:bg-accent/50 gap-1 hover:bg-accent"
+          className="h-full rounded-none w-full p-0 cursor-pointer font-medium justify-start data-[state=open]:bg-accent/50 gap-1 hover:bg-accent has-[>svg]:px-0.5"
         >
           <ChevronDownCircle className="h-3.5 w-3.5" />
           {children}

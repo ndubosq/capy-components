@@ -132,7 +132,7 @@ export function ColumnVisibility({ table }: { table: TanStackTable<any> }) {
       </PopoverTrigger>
       <PopoverContent align="end" className="w-56 p-3">
         <div className="space-y-2">
-          <div className="font-medium text-sm mb-3">Afficher/Masquer les colonnes</div>
+          <div className="font-medium text-sm mb-3">Colonnes</div>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}

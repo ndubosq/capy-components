@@ -3,20 +3,12 @@ import type { LucideIcon } from 'lucide-react'
 export type Article = {
   id: string
   code: string
-  type: ArticleType
   state: ArticleState
   label: string
   content?: string
   ht: number
   tva: ArticleTVA
   ttc: number
-}
-
-export type ArticleType = {
-  id: 'product' | 'service' | 'annotation'
-  name: string
-  icon: LucideIcon
-  color: string
 }
 
 export type ArticleState = {
