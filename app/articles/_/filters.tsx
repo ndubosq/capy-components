@@ -23,21 +23,21 @@ export const columnsConfig = [
     .option()
     .accessor((row) => row.state.id)
     .id('state')
-    .displayName('State')
+    .displayName('État')
     .icon(CircleDotDashedIcon)
     .build(),
   dtf
     .text()
     .accessor((row) => row.label)
     .id('label')
-    .displayName('Label')
+    .displayName('Libellé')
     .icon(Heading1Icon)
     .build(),
   dtf
     .number()
     .accessor((row) => row.ht)
     .id('ht')
-    .displayName('HT')
+    .displayName('Prix HT')
     .icon(EuroIcon)
     .min(0)
     .max(1000)
@@ -46,14 +46,14 @@ export const columnsConfig = [
     .option()
     .accessor((row) => row.tva.id)
     .id('tva')
-    .displayName('TVA')
+    .displayName('Taux TVA')
     .icon(PercentIcon)
     .build(),
   dtf
     .number()
     .accessor((row) => row.ttc)
     .id('ttc')
-    .displayName('TTC')
+    .displayName('Prix TTC')
     .icon(EuroIcon)
     .min(0)
     .max(1000)
